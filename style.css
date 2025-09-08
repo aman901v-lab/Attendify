@@ -1,0 +1,185 @@
+/* General Styles */
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  color: #fff;
+  margin: 0;
+  padding: 0;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+body.light-mode {
+  background: #f5f5f5;
+  color: #222;
+}
+
+/* Header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 25px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 2px 15px rgba(0,0,0,0.4);
+}
+
+h1 {
+  margin: 0;
+  font-size: 24px;
+  background: linear-gradient(90deg, #00d4ff, #00ff88);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+}
+
+/* Dashboard Grid */
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Card Style */
+.card {
+  padding: 20px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+  animation: fadeIn 0.6s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+}
+
+/* Punch Buttons */
+#punch-card button {
+  display: inline-block;
+  margin: 8px 10px 0 0;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #00d4ff, #0066ff);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#punch-card button:hover {
+  background: linear-gradient(135deg, #00ff88, #00d4ff);
+  color: #000;
+}
+
+/* Calendar */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.calendar-day {
+  padding: 15px;
+  text-align: center;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s, background 0.3s;
+  font-weight: 600;
+}
+
+.calendar-day:hover {
+  transform: scale(1.05);
+  background: #00d4ff;
+  color: #000;
+}
+
+.calendar-day.duty { background: rgba(0,255,0,0.35); }
+.calendar-day.leave { background: rgba(255,0,0,0.35); }
+.calendar-day.half { background: rgba(255,165,0,0.35); }
+.calendar-day.weekoff { background: rgba(0,0,255,0.35); }
+
+/* Notes */
+#note-input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  border: none;
+  outline: none;
+  resize: none;
+}
+
+#add-note {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #00ff88, #00d4ff);
+  font-weight: 600;
+  color: black;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#add-note:hover {
+  background: linear-gradient(135deg, #00d4ff, #0066ff);
+  color: white;
+}
+
+/* Theme Switch */
+.theme-switch {
+  position: relative;
+  width: 52px;
+  height: 26px;
+}
+
+.theme-switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  top: 0; left: 0;
+  right: 0; bottom: 0;
+  background: #ccc;
+  border-radius: 26px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.slider:before {
+  content: "";
+  position: absolute;
+  height: 20px; width: 20px;
+  left: 3px; bottom: 3px;
+  background: white;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+input:checked + .slider {
+  background: #00d4ff;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(12px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+
+/* Responsive Fix for Mobile */
+@media (max-width: 600px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+  }
+}
