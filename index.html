@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Routinely – Attendance & Salary PWA</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Routinely</h1>
+    <p>Track Attendance • Manage Salary • Stay Organized</p>
+  </header>
+
+  <main class="dashboard">
+    <!-- Attendance Calendar -->
+    <div class="card glass" id="attendance-calendar">
+      <h3>📅 Attendance Calendar</h3>
+      <div class="calendar-grid" id="calendar-grid"></div>
+    </div>
+
+    <!-- Notes -->
+    <div class="card glass" id="notes-card">
+      <h3>📝 Notes</h3>
+      <textarea id="note-input" placeholder="Write a note..."></textarea>
+      <button id="add-note">Add Note</button>
+      <ul id="notes-list"></ul>
+    </div>
+
+    <!-- Salary & Attendance Summary -->
+    <div class="card glass" id="salary-summary">
+      <h3>💰 Salary & Attendance Summary</h3>
+      <p>Total Duty Days: <span id="duty-days">0</span></p>
+      <p>Overtime Hours: <span id="ot-hours">0</span></p>
+      <p>Net Salary: ₹<span id="net-salary">0</span></p>
+    </div>
+  </main>
+
+  <footer>
+    <p>Made with ❤️ by Aman 
+  </footer>
+</body>
+</html>
