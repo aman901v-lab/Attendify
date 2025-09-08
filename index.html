@@ -1,44 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Routinely – Attendance & Salary PWA</title>
-  <link rel="stylesheet" href="style.css">
-  <script defer src="app.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Attendify - Smart Attendance</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- Header -->
   <header>
-    <h1>Routinely</h1>
-    <p>Track Attendance • Manage Salary • Stay Organized</p>
+    <h1>Attendify</h1>
+    <label class="theme-switch">
+      <input type="checkbox" id="toggle-theme" />
+      <span class="slider"></span>
+    </label>
   </header>
 
-  <main class="dashboard">
+  <!-- Dashboard -->
+  <div class="dashboard">
+
+    <!-- Quick Punch -->
+    <div class="card glass" id="punch-card">
+      <h3>Quick Punch</h3>
+      <button id="duty-in">Duty In</button>
+      <button id="duty-out">Duty Out</button>
+      <p id="punch-status">No punch yet</p>
+    </div>
+
     <!-- Attendance Calendar -->
     <div class="card glass" id="attendance-calendar">
-      <h3>📅 Attendance Calendar</h3>
+      <h3>Attendance Calendar</h3>
       <div class="calendar-grid" id="calendar-grid"></div>
     </div>
 
     <!-- Notes -->
     <div class="card glass" id="notes-card">
-      <h3>📝 Notes</h3>
+      <h3>Notes</h3>
       <textarea id="note-input" placeholder="Write a note..."></textarea>
       <button id="add-note">Add Note</button>
       <ul id="notes-list"></ul>
     </div>
 
     <!-- Salary & Attendance Summary -->
-    <div class="card glass" id="salary-summary">
-      <h3>💰 Salary & Attendance Summary</h3>
+    <div class="card glass" id="summary-card">
+      <h3>Salary & Attendance Summary</h3>
       <p>Total Duty Days: <span id="duty-days">0</span></p>
+      <p>Total Leaves: <span id="leave-days">0</span></p>
       <p>Overtime Hours: <span id="ot-hours">0</span></p>
-      <p>Net Salary: ₹<span id="net-salary">0</span></p>
+      <p>Calculated Salary: ₹<span id="calculated-salary">0</span></p>
     </div>
-  </main>
+  </div>
 
-  <footer>
-    <p>Made with ❤️ by Aman | Fair Dealing Dhulagarh</p>
-  </footer>
+  <!-- Scripts -->
+  <script src="app.js"></script>
 </body>
 </html>
