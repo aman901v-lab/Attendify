@@ -1,7 +1,8 @@
 {
   "name": "Attendify",
   "short_name": "Attendify",
-  "start_url": "./index.html",
+  "description": "Attendance, Leave & Salary Management PWA",
+  "start_url": "index.html",
   "display": "standalone",
   "background_color": "#0f0c29",
   "theme_color": "#00d4ff",
