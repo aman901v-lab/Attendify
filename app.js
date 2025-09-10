@@ -1,4 +1,6 @@
-// === Theme Toggle ===
+// ----------------------
+// Theme Toggle
+// ----------------------
 const toggle = document.getElementById("toggle-theme");
 if (localStorage.getItem("theme") === "light") {
   document.body.classList.add("light-mode");
@@ -12,42 +14,11 @@ toggle.addEventListener("change", () => {
   );
 });
 
-// === Quick Punch ===
-const dutyInBtn = document.getElementById("duty-in");
-const dutyOutBtn = document.getElementById("duty-out");
-const punchStatus = document.getElementById("punch-status");
-
-let dutyStart = null;
-let otRate = 100; // per hour OT rate
-let workedHours = 0;
-
-dutyInBtn.addEventListener("click", () => {
-  dutyStart = new Date();
-  punchStatus.innerText = `Duty started at ${dutyStart.toLocaleTimeString()}`;
-});
-
-dutyOutBtn.addEventListener("click", () => {
-  if (!dutyStart) {
-    punchStatus.innerText = "You must punch in first!";
-    return;
-  }
-  let dutyEnd = new Date();
-  let diff = (dutyEnd - dutyStart) / (1000 * 60 * 60); // hours
-  workedHours = diff.toFixed(2);
-  punchStatus.innerText = `Duty ended at ${dutyEnd.toLocaleTimeString()} (Worked: ${workedHours} hrs)`;
-
-  // Auto OT calc
-  if (workedHours > 8.5) {
-    let ot = workedHours - 8.5;
-    otHours += ot;
-  }
-  dutyStart = null;
-  updateSummary();
-});
-
-// === Attendance Calendar ===
+// ----------------------
+// Attendance Calendar
+// ----------------------
 const calendarGrid = document.getElementById("calendar-grid");
-const daysInMonth = 30; // fixed for now
+const daysInMonth = 30; // abhi fixed rakha hai
 let attendance = Array(daysInMonth).fill("duty"); // default all duty
 
 function renderCalendar() {
@@ -72,7 +43,9 @@ function cycleStatus(index) {
 
 renderCalendar();
 
-// === Notes System ===
+// ----------------------
+// Notes System
+// ----------------------
 const addNoteBtn = document.getElementById("add-note");
 const noteInput = document.getElementById("note-input");
 const notesList = document.getElementById("notes-list");
@@ -86,15 +59,17 @@ addNoteBtn.addEventListener("click", () => {
   }
 });
 
-// === Salary Summary ===
+// ----------------------
+// Salary Summary
+// ----------------------
 const dutySpan = document.getElementById("duty-days");
 const leaveSpan = document.getElementById("leave-days");
 const otSpan = document.getElementById("ot-hours");
 const salarySpan = document.getElementById("calculated-salary");
 
-let baseSalary = 26000; // Example default
+let baseSalary = 26000; // Example salary
 let perDay = baseSalary / 26;
-let otHours = 0;
+let otRate = 100; // per hour
 
 function updateSummary() {
   let duty = attendance.filter((s) => s === "duty").length;
@@ -105,13 +80,14 @@ function updateSummary() {
   let totalDuty = duty + half;
   let salary = totalDuty * perDay;
 
-  // Add overtime pay
-  salary += otHours * otRate;
+  // For demo: Random OT hours
+  let ot = Math.floor(Math.random() * 20);
+  salary += ot * otRate;
 
   dutySpan.innerText = totalDuty;
   leaveSpan.innerText = leave;
-  otSpan.innerText = otHours.toFixed(1);
-  salarySpan.innerText = Math.round(salary);
+  otSpan.innerText = ot;
+  salarySpan.innerText = salary;
 }
 
 updateSummary();
