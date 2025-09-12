@@ -1,39 +1,20 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Attendify - Login</title>
-  <link rel="stylesheet" href="login.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="background"></div>
-
-  <div class="container" id="container">
-    <!-- Logo -->
-    <div class="logo">
-      <img src="icons/icon-192.png" alt="Attendify Logo">
-      <h2>Attendify</h2>
-    </div>
-
-    <!-- Login Form -->
-    <div class="form-box login-box">
-      <h3>Login</h3>
-      <input type="email" placeholder="Email">
-      <input type="password" placeholder="Password">
-      <button>Login</button>
-      <p>Don’t have an account? <span id="show-register">Register</span></p>
-    </div>
-
-    <!-- Register Form -->
-    <div class="form-box register-box hidden">
-      <h3>Register</h3>
-      <input type="text" placeholder="Full Name">
-      <input type="email" placeholder="Email">
-      <input type="password" placeholder="Password">
-      <button>Register</button>
-      <p>Already have an account? <span id="show-login">Login</span></p>
-    </div>
+  <div class="login-container">
+    <h2>Attendify Login</h2>
+    <form id="login-form">
+      <input type="text" id="username" placeholder="Username" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <button type="submit">Login</button>
+    </form>
   </div>
 
   <script src="login.js"></script>
