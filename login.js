@@ -1,33 +1,19 @@
-// login.js - Attendify Login System
+// login.js
 
-document.addEventListener("DOMContentLoaded", () => {
-  const loginForm = document.getElementById("login-form");
+document.getElementById("login-form").addEventListener("submit", function (e) {
+  e.preventDefault();
 
-  // Dummy credentials (can be updated later)
-  const USERNAME = "admin";
-  const PASSWORD = "1234";
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
 
-  // Form submit handler
-  loginForm.addEventListener("submit", e => {
-    e.preventDefault();
+  // Simple check (You can replace this with real authentication later)
+  if (username === "admin" && password === "1234") {
+    // Save login state
+    localStorage.setItem("loggedIn", "true");
 
-    const enteredUser = document.getElementById("username").value.trim();
-    const enteredPass = document.getElementById("password").value.trim();
-
-    if (enteredUser === USERNAME && enteredPass === PASSWORD) {
-      // Save login state in localStorage
-      localStorage.setItem("isLoggedIn", "true");
-
-      // Redirect to dashboard
-      window.location.href = "dashboard.html";
-    } else {
-      alert("❌ Invalid username or password");
-    }
-  });
+    // Redirect to dashboard
+    window.location.href = "dashboard.html";
+  } else {
+    alert("❌ Invalid username or password");
+  }
 });
-
-// Logout handler (can be called from dashboard)
-function logout() {
-  localStorage.removeItem("isLoggedIn");
-  window.location.href = "login.html";
-}
