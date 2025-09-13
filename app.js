@@ -1,6 +1,6 @@
-// ----------------------
-// Theme Toggle
-// ----------------------
+// =========================
+// THEME TOGGLE SYSTEM
+// =========================
 const toggle = document.getElementById("toggle-theme");
 if (localStorage.getItem("theme") === "light") {
   document.body.classList.add("light-mode");
@@ -14,13 +14,13 @@ toggle.addEventListener("change", () => {
   );
 });
 
-// ----------------------
-// Attendance Calendar
-// ----------------------
+// =========================
+// ATTENDANCE CALENDAR
+// =========================
 const calendarGrid = document.getElementById("calendar-grid");
 const daysInMonth = 30;
 
-// LocalStorage se attendance load karo
+// Load attendance from storage
 let attendance = JSON.parse(localStorage.getItem("attendance")) || Array(daysInMonth).fill("duty");
 
 function renderCalendar() {
@@ -39,66 +39,50 @@ function cycleStatus(index) {
   const states = ["duty", "leave", "half", "weekoff"];
   let current = states.indexOf(attendance[index]);
   attendance[index] = states[(current + 1) % states.length];
-
-  // Save to LocalStorage
   localStorage.setItem("attendance", JSON.stringify(attendance));
-
   renderCalendar();
   updateSummary();
 }
 
 renderCalendar();
 
-// ----------------------
-// Notes System
-// ----------------------
+// =========================
+// NOTES SYSTEM
+// =========================
 const addNoteBtn = document.getElementById("add-note");
 const noteInput = document.getElementById("note-input");
 const notesList = document.getElementById("notes-list");
 
-// LocalStorage se notes load karo
-let notes = JSON.parse(localStorage.getItem("notes")) || [];
-
-function renderNotes() {
-  notesList.innerHTML = "";
-  notes.forEach((note, i) => {
-    let li = document.createElement("li");
-    li.innerText = note;
-
-    // Delete button
-    let delBtn = document.createElement("button");
-    delBtn.innerText = "❌";
-    delBtn.style.marginLeft = "10px";
-    delBtn.onclick = () => {
-      notes.splice(i, 1);
-      localStorage.setItem("notes", JSON.stringify(notes));
-      renderNotes();
-    };
-
-    li.appendChild(delBtn);
-    notesList.appendChild(li);
-  });
-}
-renderNotes();
+// Load saved notes
+let savedNotes = JSON.parse(localStorage.getItem("notes")) || [];
+savedNotes.forEach(note => {
+  let li = document.createElement("li");
+  li.innerText = note;
+  notesList.appendChild(li);
+});
 
 addNoteBtn.addEventListener("click", () => {
   if (noteInput.value.trim() !== "") {
-    notes.push(noteInput.value.trim());
-    localStorage.setItem("notes", JSON.stringify(notes));
-    renderNotes();
+    let li = document.createElement("li");
+    li.innerText = noteInput.value;
+    notesList.appendChild(li);
+
+    savedNotes.push(noteInput.value);
+    localStorage.setItem("notes", JSON.stringify(savedNotes));
+
     noteInput.value = "";
   }
 });
 
-// ----------------------
-// Salary Summary
-// ----------------------
+// =========================
+// SALARY SUMMARY
+// =========================
 const dutySpan = document.getElementById("duty-days");
 const leaveSpan = document.getElementById("leave-days");
 const otSpan = document.getElementById("ot-hours");
 const salarySpan = document.getElementById("calculated-salary");
 
-let baseSalary = 26000; // Example salary
+let baseSalary = 26000; // Example
 let perDay = baseSalary / 26;
 let otRate = 100; // per hour
 
@@ -106,25 +90,48 @@ function updateSummary() {
   let duty = attendance.filter((s) => s === "duty").length;
   let leave = attendance.filter((s) => s === "leave").length;
   let half = attendance.filter((s) => s === "half").length * 0.5;
-  let weekoff = attendance.filter((s) => s === "weekoff").length;
 
   let totalDuty = duty + half;
   let salary = totalDuty * perDay;
 
-  // OT random na ho, user ke liye save rahe
+  // OT hours ko localStorage me bhi save karna
   let ot = JSON.parse(localStorage.getItem("otHours")) || 0;
-
   salary += ot * otRate;
 
   dutySpan.innerText = totalDuty;
   leaveSpan.innerText = leave;
   otSpan.innerText = ot;
-  salarySpan.innerText = Math.round(salary);
+  salarySpan.innerText = salary.toFixed(0);
 }
 
-// Demo ke liye OT set karna
-if (!localStorage.getItem("otHours")) {
-  let randomOT = Math.floor(Math.random() * 20);
-  localStorage.setItem("otHours", randomOT);
-}
 updateSummary();
+
+// =========================
+// QUICK PUNCH SYSTEM
+// =========================
+const dutyInBtn = document.getElementById("duty-in");
+const dutyOutBtn = document.getElementById("duty-out");
+const punchStatus = document.getElementById("punch-status");
+
+dutyInBtn.addEventListener("click", () => {
+  let time = new Date().toLocaleTimeString();
+  punchStatus.innerText = `✅ Duty In at ${time}`;
+  localStorage.setItem("lastPunch", `In: ${time}`);
+});
+
+dutyOutBtn.addEventListener("click", () => {
+  let time = new Date().toLocaleTimeString();
+  punchStatus.innerText = `❌ Duty Out at ${time}`;
+  localStorage.setItem("lastPunch", `Out: ${time}`);
+
+  // Random OT add for demo
+  let ot = JSON.parse(localStorage.getItem("otHours")) || 0;
+  ot += Math.floor(Math.random() * 3); // 0-2 hrs
+  localStorage.setItem("otHours", ot);
+  updateSummary();
+});
+
+// Restore last punch
+if (localStorage.getItem("lastPunch")) {
+  punchStatus.innerText = localStorage.getItem("lastPunch");
+}
