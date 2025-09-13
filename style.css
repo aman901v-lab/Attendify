@@ -16,8 +16,9 @@ body.light-mode {
 /* Header */
 header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
+  gap: 15px;
   padding: 15px 25px;
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(12px);
