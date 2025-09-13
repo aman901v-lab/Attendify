@@ -18,8 +18,10 @@ toggle.addEventListener("change", () => {
 // Attendance Calendar
 // ----------------------
 const calendarGrid = document.getElementById("calendar-grid");
-const daysInMonth = 30; // abhi fixed rakha hai
-let attendance = Array(daysInMonth).fill("duty"); // default all duty
+const daysInMonth = 30;
+
+// LocalStorage se attendance load karo
+let attendance = JSON.parse(localStorage.getItem("attendance")) || Array(daysInMonth).fill("duty");
 
 function renderCalendar() {
   calendarGrid.innerHTML = "";
@@ -37,6 +39,10 @@ function cycleStatus(index) {
   const states = ["duty", "leave", "half", "weekoff"];
   let current = states.indexOf(attendance[index]);
   attendance[index] = states[(current + 1) % states.length];
+
+  // Save to LocalStorage
+  localStorage.setItem("attendance", JSON.stringify(attendance));
+
   renderCalendar();
   updateSummary();
 }
@@ -50,11 +56,36 @@ const addNoteBtn = document.getElementById("add-note");
 const noteInput = document.getElementById("note-input");
 const notesList = document.getElementById("notes-list");
 
+// LocalStorage se notes load karo
+let notes = JSON.parse(localStorage.getItem("notes")) || [];
+
+function renderNotes() {
+  notesList.innerHTML = "";
+  notes.forEach((note, i) => {
+    let li = document.createElement("li");
+    li.innerText = note;
+
+    // Delete button
+    let delBtn = document.createElement("button");
+    delBtn.innerText = "❌";
+    delBtn.style.marginLeft = "10px";
+    delBtn.onclick = () => {
+      notes.splice(i, 1);
+      localStorage.setItem("notes", JSON.stringify(notes));
+      renderNotes();
+    };
+
+    li.appendChild(delBtn);
+    notesList.appendChild(li);
+  });
+}
+renderNotes();
+
 addNoteBtn.addEventListener("click", () => {
   if (noteInput.value.trim() !== "") {
-    let li = document.createElement("li");
-    li.innerText = noteInput.value;
-    notesList.appendChild(li);
+    notes.push(noteInput.value.trim());
+    localStorage.setItem("notes", JSON.stringify(notes));
+    renderNotes();
     noteInput.value = "";
   }
 });
@@ -80,14 +111,20 @@ function updateSummary() {
   let totalDuty = duty + half;
   let salary = totalDuty * perDay;
 
-  // For demo: Random OT hours
-  let ot = Math.floor(Math.random() * 20);
+  // OT random na ho, user ke liye save rahe
+  let ot = JSON.parse(localStorage.getItem("otHours")) || 0;
+
   salary += ot * otRate;
 
   dutySpan.innerText = totalDuty;
   leaveSpan.innerText = leave;
   otSpan.innerText = ot;
-  salarySpan.innerText = salary;
+  salarySpan.innerText = Math.round(salary);
 }
 
+// Demo ke liye OT set karna
+if (!localStorage.getItem("otHours")) {
+  let randomOT = Math.floor(Math.random() * 20);
+  localStorage.setItem("otHours", randomOT);
+}
 updateSummary();
