@@ -183,3 +183,66 @@ input:checked + .slider:before {
     grid-template-columns: 1fr;
   }
 }
+
+/* ================= LOGIN PAGE ================= */
+.login-container {
+  width: 340px;
+  margin: 120px auto;
+  padding: 25px;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(12px);
+  border-radius: 14px;
+  text-align: center;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.45);
+  animation: slideUp 0.8s ease;
+}
+
+.login-container h2 {
+  margin-bottom: 20px;
+  background: linear-gradient(90deg, #00d4ff, #00ff88);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.login-container input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  font-size: 15px;
+}
+
+.login-container button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #00d4ff, #0066ff);
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.login-container button:hover {
+  background: linear-gradient(135deg, #00ff88, #00d4ff);
+  color: #000;
+}
+
+#login-error {
+  margin-top: 10px;
+  color: #ff6666;
+  font-weight: 500;
+  display: none;
+}
+
+/* Login Animation */
+@keyframes slideUp {
+  from {opacity: 0; transform: translateY(40px);}
+  to {opacity: 1; transform: translateY(0);}
+}
