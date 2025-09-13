@@ -1,8 +1,5 @@
-// ----------------------
-// Login System
-// ----------------------
+// login.js - multi-user demo
 
-// Agar already login hai toh direct dashboard par bhej do
 if (localStorage.getItem("loggedIn") === "true") {
   window.location.href = "index.html";
 }
@@ -12,23 +9,23 @@ const usernameInput = document.getElementById("username");
 const passwordInput = document.getElementById("password");
 const errorMsg = document.getElementById("login-error");
 
-// Demo credentials (tum baad me database/API se connect kar sakte ho)
-const validUser = "admin";
-const validPass = "1234";
+// Demo users list
+const users = [
+  { user: "aman901v-lab", pass: "12345" },
+  { user: "admin", pass: "1234" } // backup
+];
 
 loginForm.addEventListener("submit", function (e) {
   e.preventDefault();
-
   const username = usernameInput.value.trim();
   const password = passwordInput.value.trim();
 
-  if (username === validUser && password === validPass) {
-    // Save login state
+  const found = users.find(u => u.user === username && u.pass === password);
+  if (found) {
     localStorage.setItem("loggedIn", "true");
-    // Redirect to dashboard
+    localStorage.setItem("username", username);
     window.location.href = "index.html";
   } else {
-    // Show error
     errorMsg.style.display = "block";
     errorMsg.innerText = "❌ Invalid Username or Password!";
   }
