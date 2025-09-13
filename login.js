@@ -1,19 +1,17 @@
-// login.js
-
-document.getElementById("login-form").addEventListener("submit", function (e) {
+document.getElementById("loginForm").addEventListener("submit", function (e) {
   e.preventDefault();
 
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value.trim();
 
-  // Simple check (replace with real auth later)
-  if (username === "admin" && password === "1234") {
-    // Save login state
+  // Hardcoded credentials (abhi ke liye)
+  const validUser = "aman901v-lab";
+  const validPass = "12345"; // tum yaha apna password daal sakte ho
+
+  if (username === validUser && password === validPass) {
     localStorage.setItem("loggedIn", "true");
-
-    // Redirect to index.html (dashboard)
-    window.location.href = "index.html";
+    window.location.href = "index.html"; // Login ke baad dashboard
   } else {
-    alert("❌ Invalid username or password");
+    document.getElementById("login-error").style.display = "block";
   }
 });
