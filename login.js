@@ -1,17 +1,35 @@
-document.getElementById("loginForm").addEventListener("submit", function (e) {
+// ----------------------
+// Login System
+// ----------------------
+
+// Agar already login hai toh direct dashboard par bhej do
+if (localStorage.getItem("loggedIn") === "true") {
+  window.location.href = "index.html";
+}
+
+const loginForm = document.getElementById("login-form");
+const usernameInput = document.getElementById("username");
+const passwordInput = document.getElementById("password");
+const errorMsg = document.getElementById("login-error");
+
+// Demo credentials (tum baad me database/API se connect kar sakte ho)
+const validUser = "admin";
+const validPass = "1234";
+
+loginForm.addEventListener("submit", function (e) {
   e.preventDefault();
 
-  const username = document.getElementById("username").value.trim();
-  const password = document.getElementById("password").value.trim();
-
-  // Hardcoded credentials (abhi ke liye)
-  const validUser = "aman901v-lab";
-  const validPass = "12345"; // tum yaha apna password daal sakte ho
+  const username = usernameInput.value.trim();
+  const password = passwordInput.value.trim();
 
   if (username === validUser && password === validPass) {
+    // Save login state
     localStorage.setItem("loggedIn", "true");
-    window.location.href = "index.html"; // Login ke baad dashboard
+    // Redirect to dashboard
+    window.location.href = "index.html";
   } else {
-    document.getElementById("login-error").style.display = "block";
+    // Show error
+    errorMsg.style.display = "block";
+    errorMsg.innerText = "❌ Invalid Username or Password!";
   }
 });
