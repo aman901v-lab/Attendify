@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile Setup</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="login-container">
+    <h2>Set up your Profile</h2>
+
+    <input type="text" id="new-username" placeholder="Choose Username">
+    <input type="password" id="new-password" placeholder="Choose Password">
+
+    <button onclick="saveProfile()">Save & Continue</button>
+  </div>
+
+  <script>
+    function saveProfile() {
+      const newUser = document.getElementById("new-username").value;
+      const newPass = document.getElementById("new-password").value;
+
+      if(newUser && newPass) {
+        // Local storage mein save karenge (demo ke liye)
+        localStorage.setItem("username", newUser);
+        localStorage.setItem("password", newPass);
+        alert("Profile saved successfully!");
+        window.location.href = "main.html";
+      } else {
+        alert("Please fill all fields");
+      }
+    }
+  </script>
+</body>
+</html>
