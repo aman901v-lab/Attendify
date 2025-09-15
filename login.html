@@ -1,32 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Attendify - Login</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Smart Attendance</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="login-container">
-    <h2>Login to Attendify</h2>
+    <h2>Welcome Back</h2>
 
     <!-- Social Login Buttons -->
-    <button id="google-login">Login with Google</button>
-    <button id="facebook-login">Login with Facebook</button>
-    <button id="apple-login">Login with Apple</button>
-    <button id="phone-login">Login with Phone</button>
-    <button id="email-login">Login with Email</button>
+    <button onclick="redirectToProfile()">Login with Google</button>
+    <button onclick="redirectToProfile()">Login with Facebook</button>
+    <button onclick="redirectToProfile()">Login with Apple</button>
+    <button onclick="redirectToProfile()">Login with Phone</button>
+    <button onclick="redirectToProfile()">Login with Email</button>
 
-    <hr />
+    <hr style="margin:20px 0; border:0; border-top:1px solid rgba(255,255,255,0.3);">
 
-    <!-- Optional: Username/Password if already created -->
-    <p>Or login with username:</p>
-    <a href="username-login.html" class="btn-secondary">Username/Password Login</a>
+    <!-- Username Password Login -->
+    <input type="text" id="username" placeholder="Enter Username">
+    <input type="password" id="password" placeholder="Enter Password">
+    <button onclick="redirectToMain()">Login</button>
+
+    <p id="login-error">Invalid username or password!</p>
   </div>
 
-  <script src="firebase-app.js"></script>
-  <script src="firebase-auth.js"></script>
-  <script src="firebase-firestore.js"></script>
-  <script src="login.js"></script>
+  <script>
+    function redirectToProfile() {
+      // Pehle social login → profile setup
+      window.location.href = "profile-setup.html";
+    }
+
+    function redirectToMain() {
+      // Username-password ke direct login
+      const user = document.getElementById("username").value;
+      const pass = document.getElementById("password").value;
+      if(user === "aman901v-lab" && pass === "12345") {
+        window.location.href = "main.html";
+      } else {
+        document.getElementById("login-error").style.display = "block";
+      }
+    }
+  </script>
 </body>
 </html>
