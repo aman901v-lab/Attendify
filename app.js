@@ -21,7 +21,9 @@ const calendarGrid = document.getElementById("calendar-grid");
 const daysInMonth = 30;
 
 // Load attendance from storage
-let attendance = JSON.parse(localStorage.getItem("attendance")) || Array(daysInMonth).fill("duty");
+let attendance =
+  JSON.parse(localStorage.getItem("attendance")) ||
+  Array(daysInMonth).fill("duty");
 
 function renderCalendar() {
   calendarGrid.innerHTML = "";
@@ -55,7 +57,7 @@ const notesList = document.getElementById("notes-list");
 
 // Load saved notes
 let savedNotes = JSON.parse(localStorage.getItem("notes")) || [];
-savedNotes.forEach(note => {
+savedNotes.forEach((note) => {
   let li = document.createElement("li");
   li.innerText = note;
   notesList.appendChild(li);
@@ -113,16 +115,38 @@ const dutyInBtn = document.getElementById("duty-in");
 const dutyOutBtn = document.getElementById("duty-out");
 const punchStatus = document.getElementById("punch-status");
 
+// Load punch history & last punch
+let punchHistory = JSON.parse(localStorage.getItem("punchHistory")) || [];
+let lastPunch = localStorage.getItem("lastPunch") || "";
+
+function renderPunchStatus() {
+  if (lastPunch) {
+    punchStatus.innerText = lastPunch;
+  } else {
+    punchStatus.innerText = "No punch yet";
+  }
+}
+
 dutyInBtn.addEventListener("click", () => {
   let time = new Date().toLocaleTimeString();
-  punchStatus.innerText = `✅ Duty In at ${time}`;
-  localStorage.setItem("lastPunch", `In: ${time}`);
+  lastPunch = `✅ Duty In at ${time}`;
+  punchStatus.innerText = lastPunch;
+
+  // Save last punch + history
+  localStorage.setItem("lastPunch", lastPunch);
+  punchHistory.push({ type: "Duty In", time });
+  localStorage.setItem("punchHistory", JSON.stringify(punchHistory));
 });
 
 dutyOutBtn.addEventListener("click", () => {
   let time = new Date().toLocaleTimeString();
-  punchStatus.innerText = `❌ Duty Out at ${time}`;
-  localStorage.setItem("lastPunch", `Out: ${time}`);
+  lastPunch = `❌ Duty Out at ${time}`;
+  punchStatus.innerText = lastPunch;
+
+  // Save last punch + history
+  localStorage.setItem("lastPunch", lastPunch);
+  punchHistory.push({ type: "Duty Out", time });
+  localStorage.setItem("punchHistory", JSON.stringify(punchHistory));
 
   // Random OT add for demo
   let ot = JSON.parse(localStorage.getItem("otHours")) || 0;
@@ -131,7 +155,5 @@ dutyOutBtn.addEventListener("click", () => {
   updateSummary();
 });
 
-// Restore last punch
-if (localStorage.getItem("lastPunch")) {
-  punchStatus.innerText = localStorage.getItem("lastPunch");
-}
+// Restore last punch on load
+renderPunchStatus();
