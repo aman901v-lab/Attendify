@@ -29,6 +29,7 @@
   <!-- Header -->
   <header>
     <h1>Attendify</h1>
+    <span id="welcome-user"></span>
     <label class="theme-switch">
       <input type="checkbox" id="toggle-theme" />
       <span class="slider"></span>
@@ -79,8 +80,17 @@
   <script>
     function logout() {
       localStorage.removeItem("loggedIn");
+      localStorage.removeItem("username");
       window.location.href = "login.html";
     }
+
+    // Show logged-in username if saved
+    window.addEventListener("DOMContentLoaded", () => {
+      const user = localStorage.getItem("username");
+      if (user) {
+        document.getElementById("welcome-user").innerText = "👋 Hi, " + user;
+      }
+    });
   </script>
 
   <!-- Service Worker Registration -->
@@ -94,24 +104,5 @@
       });
     }
   </script>
-
-  <!-- Extra Styles for Logout Button -->
-  <style>
-    .logout-btn {
-      margin-left: 15px;
-      padding: 8px 14px;
-      border: none;
-      background: linear-gradient(135deg, #ff4747, #ff6b6b);
-      color: white;
-      font-weight: bold;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .logout-btn:hover {
-      background: linear-gradient(135deg, #e03d3d, #ff4747);
-      transform: scale(1.05);
-    }
-  </style>
 </body>
 </html>
