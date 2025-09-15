@@ -1,54 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Attendify — Login</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Attendify - Login</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="login-container">
-    <h2>Sign in to Attendify</h2>
+    <h2>Login to Attendify</h2>
 
-    <!-- Email / Password -->
-    <form id="email-form">
-      <input id="email" type="email" placeholder="Email" required />
-      <input id="pwd" type="password" placeholder="Password" required />
-      <button type="submit">Sign in with Email</button>
-    </form>
+    <!-- Social Login Buttons -->
+    <button id="google-login">Login with Google</button>
+    <button id="facebook-login">Login with Facebook</button>
+    <button id="apple-login">Login with Apple</button>
+    <button id="phone-login">Login with Phone</button>
+    <button id="email-login">Login with Email</button>
 
-    <p style="margin:12px 0; color: #aaa;">Or continue with</p>
+    <hr />
 
-    <!-- Social Buttons -->
-    <div style="display:flex; flex-direction:column; gap:10px; width:100%;">
-      <button id="btn-google">Continue with Google</button>
-      <button id="btn-facebook">Continue with Facebook</button>
-      <button id="btn-apple">Continue with Apple</button>
-      <button id="btn-phone">Sign in with Phone (OTP)</button>
-      <button id="btn-email-link">Send Sign-in Link to Email</button>
-    </div>
-
-    <p id="login-error" style="color:#ff6666; display:none; margin-top:12px;"></p>
+    <!-- Optional: Username/Password if already created -->
+    <p>Or login with username:</p>
+    <a href="username-login.html" class="btn-secondary">Username/Password Login</a>
   </div>
 
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-
-  <script>
-    // ====== Paste your Firebase config below (replace the stub) ======
-    const firebaseConfig = {
-      // FIREBASE_CONFIG_INSERT
-      // Example:
-      // apiKey: "AIza....",
-      // authDomain: "yourproject.firebaseapp.com",
-      // projectId: "yourproject",
-      // ...
-    };
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-  </script>
-
+  <script src="firebase-app.js"></script>
+  <script src="firebase-auth.js"></script>
+  <script src="firebase-firestore.js"></script>
   <script src="login.js"></script>
 </body>
 </html>
