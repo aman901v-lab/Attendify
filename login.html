@@ -11,34 +11,73 @@
     <h2>Welcome Back</h2>
 
     <!-- Social Login Buttons -->
-    <button onclick="redirectToProfile()">Login with Google</button>
-    <button onclick="redirectToProfile()">Login with Facebook</button>
-    <button onclick="redirectToProfile()">Login with Apple</button>
-    <button onclick="redirectToProfile()">Login with Phone</button>
-    <button onclick="redirectToProfile()">Login with Email</button>
+    <button onclick="socialLogin('google')">Login with Google</button>
+    <button onclick="socialLogin('facebook')">Login with Facebook</button>
+    <button onclick="socialLogin('apple')">Login with Apple</button>
+    <button onclick="socialLogin('phone')">Login with Phone</button>
+    <button onclick="socialLogin('email')">Login with Email</button>
 
     <hr style="margin:20px 0; border:0; border-top:1px solid rgba(255,255,255,0.3);">
 
     <!-- Username Password Login -->
     <input type="text" id="username" placeholder="Enter Username">
     <input type="password" id="password" placeholder="Enter Password">
-    <button onclick="redirectToMain()">Login</button>
+    <button onclick="usernameLogin()">Login</button>
 
-    <p id="login-error">Invalid username or password!</p>
+    <p id="login-error" style="display:none; color:red;">Invalid username or password!</p>
   </div>
 
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js"></script>
+  <script src="firebase-config.js"></script>
+
   <script>
-    function redirectToProfile() {
-      // Pehle social login → profile setup
-      window.location.href = "profile-setup.html";
+    const auth = firebase.auth();
+
+    // 🔹 Social Login Handler
+    function socialLogin(providerName) {
+      let provider;
+      switch(providerName) {
+        case "google":
+          provider = new firebase.auth.GoogleAuthProvider();
+          break;
+        case "facebook":
+          provider = new firebase.auth.FacebookAuthProvider();
+          break;
+        case "apple":
+          provider = new firebase.auth.OAuthProvider("apple.com");
+          break;
+        case "phone":
+          alert("Phone login coming soon 🚀");
+          return;
+        case "email":
+          alert("Email login coming soon 🚀");
+          return;
+      }
+
+      auth.signInWithPopup(provider)
+        .then(result => {
+          localStorage.setItem("loggedIn", "true");
+          localStorage.setItem("username", result.user.displayName || "User");
+          window.location.href = "profile-setup.html"; // pehle profile setup
+        })
+        .catch(err => {
+          console.error("Login Failed:", err.message);
+          alert("Login failed: " + err.message);
+        });
     }
 
-    function redirectToMain() {
-      // Username-password ke direct login
-      const user = document.getElementById("username").value;
-      const pass = document.getElementById("password").value;
+    // 🔹 Username/Password Login (Manual)
+    function usernameLogin() {
+      const user = document.getElementById("username").value.trim();
+      const pass = document.getElementById("password").value.trim();
+
       if(user === "aman901v-lab" && pass === "12345") {
-        window.location.href = "main.html";
+        localStorage.setItem("loggedIn", "true");
+        localStorage.setItem("username", user);
+        window.location.href = "index.html";
       } else {
         document.getElementById("login-error").style.display = "block";
       }
