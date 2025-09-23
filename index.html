@@ -14,13 +14,12 @@
   <!-- Manifest -->
   <link rel="manifest" href="manifest.json" />
 
-  <!-- Favicon fallback -->
+  <!-- Favicon -->
   <link rel="icon" href="icons/icon-192.png" type="image/png" />
 
-  <!-- Login Check -->
+  <!-- Login Check (agar user login nahi hai toh redirect karega) -->
   <script>
-    // Agar login nahi hai toh redirect kar do login.html par
-    if (localStorage.getItem("loggedIn") !== "true") {
+    if (!localStorage.getItem("loggedIn")) {
       window.location.href = "login.html";
     }
   </script>
@@ -30,10 +29,13 @@
   <header>
     <h1>Attendify</h1>
     <span id="welcome-user"></span>
+
+    <!-- Theme Toggle -->
     <label class="theme-switch">
       <input type="checkbox" id="toggle-theme" />
       <span class="slider"></span>
     </label>
+
     <!-- Logout Button -->
     <button onclick="logout()" class="logout-btn">Logout</button>
   </header>
@@ -73,7 +75,16 @@
     </div>
   </div>
 
-  <!-- Scripts -->
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-analytics.js"></script>
+
+  <!-- Firebase Config -->
+  <script src="firebase-config.js"></script>
+
+  <!-- App Logic -->
   <script src="app.js"></script>
 
   <!-- Logout Script -->
@@ -84,7 +95,7 @@
       window.location.href = "login.html";
     }
 
-    // Show logged-in username if saved
+    // Show logged-in username
     window.addEventListener("DOMContentLoaded", () => {
       const user = localStorage.getItem("username");
       if (user) {
