@@ -1,0 +1,160 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Attendify - Smart Attendance & Salary Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sat: env(safe-area-inset-top);
+            --sar: env(safe-area-inset-right);
+            --sab: env(safe-area-inset-bottom);
+            --sal: env(safe-area-inset-left);
+        }
+
+        /* Obsidian Gold */
+        [data-theme='obsidian'] {
+            --theme-bg: #0F0F14;
+            --theme-surface: rgba(28, 28, 36, 0.7);
+            --theme-surface-dark: #14141A;
+            --theme-accent: #D4AF37;
+            --theme-accent-glow: rgba(212, 175, 55, 0.4);
+            --theme-text-main: #EAEAEA;
+            --theme-text-muted: #888888;
+            --theme-border: rgba(212, 175, 55, 0.15);
+            --theme-glass-border: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Nordic Frost */
+        [data-theme='nordic'] {
+            --theme-bg: #F5F7FA;
+            --theme-surface: rgba(228, 233, 240, 0.7);
+            --theme-surface-dark: #FFFFFF;
+            --theme-accent: #6C9EFF;
+            --theme-accent-glow: rgba(108, 158, 255, 0.3);
+            --theme-text-main: #1A1A1A;
+            --theme-text-muted: #64748B;
+            --theme-border: rgba(108, 158, 255, 0.1);
+            --theme-glass-border: rgba(0, 0, 0, 0.05);
+        }
+
+        /* Midnight Blue Steel */
+        [data-theme='midnight'] {
+            --theme-bg: #0B132B;
+            --theme-surface: rgba(28, 37, 65, 0.7);
+            --theme-surface-dark: #0F172A;
+            --theme-accent: #3A86FF;
+            --theme-accent-glow: rgba(58, 134, 255, 0.4);
+            --theme-text-main: #D9E2EC;
+            --theme-text-muted: #627D98;
+            --theme-border: rgba(58, 134, 255, 0.2);
+            --theme-glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--theme-bg);
+            color: var(--theme-text-main);
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            height: 100%;
+            width: 100%;
+            position: fixed;
+            transition: background-color 0.5s ease;
+        }
+
+        #root {
+            height: 100dvh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1, h2, h3, .font-heading {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .glass {
+            background: var(--theme-surface);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--theme-glass-border);
+        }
+
+        .glass-dark {
+            background: var(--theme-surface-dark);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--theme-glass-border);
+        }
+
+        .theme-accent-bg {
+            background-color: var(--theme-accent);
+        }
+
+        .theme-accent-text {
+            color: var(--theme-accent);
+        }
+
+        .theme-accent-border {
+            border-color: var(--theme-accent);
+        }
+
+        .neon-accent {
+            box-shadow: 0 0 15px var(--theme-accent-glow);
+        }
+
+        .neon-text {
+            text-shadow: 0 0 8px var(--theme-accent-glow);
+        }
+
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--theme-accent-glow);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--theme-accent);
+        }
+
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        * {
+            -webkit-tap-highlight-color: transparent;
+            transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "lucide-react": "https://esm.sh/lucide-react@^0.563.0",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body data-theme="midnight">
+    <div id="root"></div>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
