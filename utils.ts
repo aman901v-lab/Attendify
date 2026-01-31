@@ -1,0 +1,87 @@
+import { AttendanceRecord, Employee, AttendanceStatus, Holiday } from './types.ts';
+
+export const formatTime = (time?: string) => time || '--:--';
+
+export const toLocalDateString = (date: Date): string => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
+export const calculateHours = (inTime: string, outTime: string): number => {
+  const [inH, inM] = inTime.split(':').map(Number);
+  const [outH, outM] = outTime.split(':').map(Number);
+  let diff = (outH * 60 + outM) - (inH * 60 + inM);
+  if (diff < 0) diff += 24 * 60; 
+  return Math.round((diff / 60) * 100) / 100;
+};
+
+export const calculateWorkedHours = (inTime: string, outTime: string): number => {
+  const total = calculateHours(inTime, outTime);
+  const worked = Math.max(0, total - 0.5);
+  return Math.round(worked * 100) / 100;
+};
+
+export const getOT = (workedHours: number): number => {
+  const ot = Math.max(0, workedHours - 8);
+  return Math.round(ot * 100) / 100;
+};
+
+export const getAutoStatus = (dateStr: string, employee: Employee, holidays: Holiday[]): AttendanceStatus | null => {
+  const isHoliday = holidays.find(h => h.date === dateStr);
+  if (isHoliday) return 'Holiday';
+  
+  const [year, month, day] = dateStr.split('-').map(Number);
+  const date = new Date(year, month - 1, day);
+  const dayOfWeek = date.getDay();
+  
+  if (employee.weeklyOffs.includes(dayOfWeek)) return 'Weekly Off';
+  return null;
+};
+
+export const calculateSalary = (records: AttendanceRecord[], employee: Employee) => {
+  const workingCycleDays = employee.workingDaysPerMonth || 26;
+  const dailySalary = employee.monthlySalary / workingCycleDays;
+  const hourlySalary = dailySalary / 8;
+  
+  let totalOTHours = 0;
+  let totalDeductionDays = 0;
+  let presentDays = 0;
+  let absentDaysCount = 0;
+  let halfDaysCount = 0;
+
+  records.forEach(r => {
+    if (r.status === 'Duty') {
+      presentDays++;
+      if (r.otHours) totalOTHours += r.otHours;
+    } else if (r.status === 'Half-Day') {
+      halfDaysCount++;
+      totalDeductionDays += 0.5;
+      if (r.otHours) totalOTHours += r.otHours;
+    } else if (r.status === 'Absent' || r.status === 'Unpaid') {
+      absentDaysCount++;
+      totalDeductionDays += 1;
+    }
+    // Note: SL, PL, CL, Holiday, Weekly Off are considered paid (0 deduction)
+  });
+
+  const roundedOTHours = Math.round(totalOTHours * 100) / 100;
+  const otRate = employee.otRate > 0 ? employee.otRate : hourlySalary;
+  const otEarnings = roundedOTHours * otRate;
+  const deductions = totalDeductionDays * dailySalary;
+  
+  // Logic: Base - Absents + OT
+  const netSalary = employee.monthlySalary - deductions + otEarnings;
+
+  return {
+    dailyRate: Math.round(dailySalary * 100) / 100,
+    totalOTHours: roundedOTHours,
+    otEarnings: Math.round(otEarnings * 100) / 100,
+    deductions: Math.round(deductions * 100) / 100,
+    netSalary: Math.max(0, Math.round(netSalary)),
+    presentDays,
+    absentDays: absentDaysCount,
+    halfDays: halfDaysCount
+  };
+};
